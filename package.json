@@ -13,7 +13,7 @@
   ],
   "deprecated": false,
   "description": "Resource Loader for Spark (www.pxscene.org) - to support detection of images/fonts etc in WebPack builds.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "keywords": [
     "bash",
     "Spark",

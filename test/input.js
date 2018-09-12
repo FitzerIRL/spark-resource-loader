@@ -1,9 +1,4 @@
 
-
-   var logoRes  = scene.create({ t: "imageResource", url: base + '/images/comcast-logo-white.svg' });
-
-
-
 // Neat lines
 var img1 = scene.create({ t: 'imageResource', url: base + '/images/logoImg1.svg' });
 var img2 = scene.create({ t: 'image', parent: pp, sx: res_sx, sy: res_sy, url: base + '/images/logoImg2.jpg' });
