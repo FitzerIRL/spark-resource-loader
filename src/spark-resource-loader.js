@@ -10,6 +10,8 @@ module.exports = function(source, map) {
 
     newSource = parseImages(options.base, newSource); // modifies string
 
+    console.log("## newSource:  " + newSource + " <<");
+
     this.callback(
         null,
         newSource,
@@ -42,38 +44,70 @@ function resolveBase(base, str)
 
 function parseImages(base, str)
 {
-    // There are 2 cases ... 'url' appears *BEFORE* 't:image|imageResource' and vice-versa..
-    //
-    var reUrlType = /.*\.create\s*\(\s*\{[^t:]+?url:([^:,}]*)[\S\s]+?t:\s*['"]+[image|imageResource][\s\S]+?}\).*\s*/g;
-    var reTypeUrl = /.*\.create\s*\(\s*\{[^url:]*?t:\s*['"]+[image|imageResource]+['"]+(?:[\s\S])*?url:([^:,}]*).*\s*/g;
-
-    var matcher = [ reUrlType, reTypeUrl ]
+    var reJson        = /.*\.create\s*\(\s*\{([^}]*)\}\s*\).*/g;
+    var reIsImageType = /.*[imageResource|image]+.*/;
+    var reIsImageFile = /.*\.[jpg|png|svg]+.*/;
 
     var myStr = str;// to modify param
 
+//    var matches = [];
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    var matches = [];
+    var m = null;
 
-    matcher.map( (re, index) =>
+    do
     {
-        do
+        m = reJson.exec(myStr);
+        if (m !== null)
         {
-            var m = re.exec(myStr);
-            if (m)
+            try
             {
-                //  console.log("## >> HERE:  MATCH: >>" + m[1] + "<<" );
+                var props = m[1].split(',');
+                var obj   = {};
 
-                var finalname = resolveBase(base, m[1]);
+                // Parse JSON (ish) string to Object
+                props.map(p =>
+                {
+                    var tup = p.split(':');
 
-                // console.log("## >> HERE:  finalname: >>" + finalname + "<<" );
+                    var key = tup[0].replace(/^\s+|\s+$/g, "");
+                    var val = tup[1].replace(/^\s+|\s+$/g, "");
 
-                myStr = myStr.replace(m[0], m[0] + "\n" + "require(" + finalname +") // ## __spark-resource-loader__ ## \n");
-                matches.push(finalname)
+                    key = key.replace(/,/g, "");
+                    val = val.replace(/,/g, "");
+
+                    obj[key] = val;
+                });
+
+                props = null;
+
+                if(typeof(obj.t) !== 'undefined')
+                {
+                    if( reIsImageType.exec(obj.t) !== null)
+                    {
+                        if(reIsImageFile.exec(obj.url))
+                        {
+                            var finalname = resolveBase(base, obj.url);
+
+                            myStr = myStr.replace(m[0], m[0] + "\n" + "require(" + finalname +") // ## __spark-resource-loader__ ## \n");
+
+                            //  console.log("## >> HERE:  m[0] : >>" + m[0]  + "<<" );
+                            //  matches.push(finalname)
+                        }
+                    }
+                }
+                else
+                {
+                    console.log("## Invalid  call to \"create({ ... })\"  ... no 't:' property found !");
+                }
             }
-            //break;
-        } while (m);
-    });
+            catch(e)
+            {
+                console.log("## FATAL:  Parse failed !  [" + e + "]" );
+            }
+        }
+    } while (m);
 
 //    console.log(" Found: " + matches.length);
 
