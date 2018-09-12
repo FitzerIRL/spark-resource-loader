@@ -35,11 +35,6 @@ function resolveBase(base, str)
     var reQuote = /.*(["']+).*/;
     var quote   = reQuote.exec(myStr);
 
-    if( quote && myStr.endsWith(quote[1]) == false)
-    {
-        myStr += quote[1]; // append missing quote...   BAD RegEx :(
-    }
-
     if(match && base[key])
     {
         var name = quote[1] + base[key] + quote[1];
@@ -55,8 +50,8 @@ function parseImages(base, str)
 {
     // There are 2 cases ... 'url' appears *BEFORE* 't:image|imageResource' and vice-versa..
     //
-    var reUrlType = /.*\.create\s*\(\s*\{[^t:]+?url:([a-zA-Z0-9.+-'"/ ]*)[\S\s]+?t:\s*['"]+[image|imageResource][\s\S]+?}\).*\s*/g;
-    var reTypeUrl = /.*\.create\s*\(\s*\{[^url:]*?t:\s*['"]+[image|imageResource]+['"]+(?:[\s\S])*?url:([a-zA-Z0-9.-+'"/ ]*).*\s*/g;
+    var reUrlType = /.*\.create\s*\(\s*\{[^t:]+?url:([a-zA-Z0-9.+'"/ -]*)[\S\s]+?t:\s*['"]+[image|imageResource][\s\S]+?}\).*\s*/g;
+    var reTypeUrl = /.*\.create\s*\(\s*\{[^url:]*?t:\s*['"]+[image|imageResource]+['"]+(?:[\s\S])*?url:([a-zA-Z0-9.+'"/ -]*).*\s*/g;
 
     var matcher = [ reUrlType, reTypeUrl ]
 
@@ -73,9 +68,11 @@ function parseImages(base, str)
             var m = re.exec(myStr);
             if (m)
             {
-                // console.log("## >> HERE:  MATCH: >>" + m[1] + "<<" );
+                //  console.log("## >> HERE:  MATCH: >>" + m[1] + "<<" );
 
                 var finalname = resolveBase(base, m[1]);
+
+                // console.log("## >> HERE:  finalname: >>" + finalname + "<<" );
 
                 myStr = myStr.replace(m[0], m[0] + "\n" + "require(" + finalname +") // ## __spark-resource-loader__ ## \n");
                 matches.push(finalname)
