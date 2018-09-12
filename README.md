@@ -11,9 +11,9 @@ Also checkout [Spark](https://github.com/pxscene/pxCore) ... (aka pxScene)
 <summary><strong>Details</strong></summary>
 
 - [Install](#install)
-- [What is nanomatch?](#what-is-nanomatch)
+- [What is spark-resource-loader?](#what-is-spark-resource-loader)
 - [Getting started](#getting-started)
-  * [Installing nanomatch](#installing-nanomatch)
+  * [Installing spark-resource-loader](#installing-spark-resource-loader)
   * [Usage](#usage)
 - [Documentation](#documentation)
   * [Escaping](#escaping)
@@ -47,7 +47,7 @@ $ npm install --save spark-resource-loader
 * `fixed`: for any bug fixes
 * `bumped`: updated dependencies, only minor or higher will be listed.
 
-### [0.1](https://github.com/micromatch/nanomatch/compare/1.0.4...1.1.0) - 2018-09-12
+### [1.0.0](https://github.com/FitzerIRL/spark-resource-loader) - 2018-09-12
 
 **Initial Release**
 

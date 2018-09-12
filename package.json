@@ -23,7 +23,7 @@
   ],
   "files": [
     "index.js",
-    "lib",
+    "src",
     "test"
   ],
   "license": "MIT",
