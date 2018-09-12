@@ -1,7 +1,9 @@
 
 > Spark Resource Loader
 
-Please consider following this project's author, [Jon Schlinkert](https://github.com/jonschlinkert), and consider starring the project to show your :heart: and support.
+Please consider following this project's author, [Hugh Fitzpatrick](https://github.com/FitzerIRL), and consider starring the project to show your :heart: and support.
+
+Also checkout [Spark] (https://github.com/pxscene/pxCore) ... (aka pxScene)
 
 ## Table of Contents
 
