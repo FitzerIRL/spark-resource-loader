@@ -3,7 +3,7 @@
 
 Please consider following this project's author, [Hugh Fitzpatrick](https://github.com/FitzerIRL), and consider starring the project to show your :heart: and support.
 
-Also checkout [Spark] (https://github.com/pxscene/pxCore) ... (aka pxScene)
+Also checkout [Spark](https://github.com/pxscene/pxCore) ... (aka pxScene)
 
 ## Table of Contents
 
