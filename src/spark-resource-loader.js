@@ -10,12 +10,6 @@ module.exports = function(source, map) {
 
     newSource = parseImages(options.base, newSource); // modifies string
 
-    // console.log("\n\n");
-    // console.log("############################################");
-    // console.log("\n"+newSource+"\n");
-    // console.log("############################################");
-    // console.log("\n\n");
-
     this.callback(
         null,
         newSource,
@@ -50,8 +44,8 @@ function parseImages(base, str)
 {
     // There are 2 cases ... 'url' appears *BEFORE* 't:image|imageResource' and vice-versa..
     //
-    var reUrlType = /.*\.create\s*\(\s*\{[^t:]+?url:([a-zA-Z0-9.+'"/ -_]*)[\S\s]+?t:\s*['"]+[image|imageResource][\s\S]+?}\).*\s*/g;
-    var reTypeUrl = /.*\.create\s*\(\s*\{[^url:]*?t:\s*['"]+[image|imageResource]+['"]+(?:[\s\S])*?url:([a-zA-Z0-9.+'"/ -_]*).*\s*/g;
+    var reUrlType = /.*\.create\s*\(\s*\{[^t:]+?url:([^:,]*)[\S\s]+?t:\s*['"]+[image|imageResource][\s\S]+?}\).*\s*/g;
+    var reTypeUrl = /.*\.create\s*\(\s*\{[^url:]*?t:\s*['"]+[image|imageResource]+['"]+(?:[\s\S])*?url:([^:,]*).*\s*/g;
 
     var matcher = [ reUrlType, reTypeUrl ]
 
