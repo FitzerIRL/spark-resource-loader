@@ -44,8 +44,8 @@ function parseImages(base, str)
 {
     // There are 2 cases ... 'url' appears *BEFORE* 't:image|imageResource' and vice-versa..
     //
-    var reUrlType = /.*\.create\s*\(\s*\{[^t:]+?url:([^:,]*)[\S\s]+?t:\s*['"]+[image|imageResource][\s\S]+?}\).*\s*/g;
-    var reTypeUrl = /.*\.create\s*\(\s*\{[^url:]*?t:\s*['"]+[image|imageResource]+['"]+(?:[\s\S])*?url:([^:,]*).*\s*/g;
+    var reUrlType = /.*\.create\s*\(\s*\{[^t:]+?url:([^:,}]*)[\S\s]+?t:\s*['"]+[image|imageResource][\s\S]+?}\).*\s*/g;
+    var reTypeUrl = /.*\.create\s*\(\s*\{[^url:]*?t:\s*['"]+[image|imageResource]+['"]+(?:[\s\S])*?url:([^:,}]*).*\s*/g;
 
     var matcher = [ reUrlType, reTypeUrl ]
 
