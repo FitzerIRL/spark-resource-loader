@@ -20,8 +20,7 @@ export default (fixture, options = {}) => {
           options: {
               base:
               {
-                  "base" : path.resolve(__dirname, './'),
-                  "base2": path.resolve(__dirname, './')
+                  "base" : path.resolve(__dirname, './')// definition for 'base' variable in the code
               }
           }
         }

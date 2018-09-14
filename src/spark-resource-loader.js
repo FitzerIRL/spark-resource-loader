@@ -10,7 +10,7 @@ module.exports = function(source, map) {
 
     newSource = parseImages(options.base, newSource); // modifies string
 
-    console.log("## newSource:  " + newSource + " <<");
+   // console.log("## newSource:  " + newSource + " <<");
 
     this.callback(
         null,
@@ -24,18 +24,23 @@ function resolveBase(base, str)
     var myStr = str;
     var reBase = /\s*([^ +]*)\s*\+/;
     var match  = reBase.exec(myStr);
-    var key    = match[1];
+    var key    = "(none)"
 
-   // console.log("## >> match: ["+match+"]  key: [" + key +"]    str: [" + str + "]");
+    //console.log("## >> match: ["+match+"]  key: [" + key +"]    str: [" + str + "]");
 
-    var reQuote = /.*(["']+).*/;
-    var quote   = reQuote.exec(myStr);
-
-    if(match && base[key])
+    if(match)
     {
-        var name = quote[1] + base[key] + quote[1];
+        key = match[1];
 
-        return myStr.replace(key, name);
+        var reQuote = /.*(["']+).*/;
+        var quote   = reQuote.exec(myStr);
+
+        if(match && base[key])
+        {
+            var name = quote[1] + base[key] + quote[1];
+
+            return myStr.replace(key, name);
+        }
     }
 
     return str; // Not Found
@@ -45,7 +50,7 @@ function resolveBase(base, str)
 function parseImages(base, str)
 {
     var reJson        = /.*\.create\s*\(\s*\{([^}]*)\}\s*\).*/g;
-    var reIsImageType = /.*[imageResource|image]+.*/;
+    var reIsImageType = /.*\b[imageResource|image|image9]+\b.*/;
     var reIsImageFile = /.*\.[jpg|png|svg]+.*/;
 
     var myStr = str;// to modify param
@@ -71,13 +76,22 @@ function parseImages(base, str)
                 {
                     var tup = p.split(':');
 
-                    var key = tup[0].replace(/^\s+|\s+$/g, "");
-                    var val = tup[1].replace(/^\s+|\s+$/g, "");
+                    if(tup && tup.length == 2)
+                    {
+                        var key = tup[0].replace(/^\s+|\s+$/g, "");
+                        var val = tup[1].replace(/^\s+|\s+$/g, "");
 
-                    key = key.replace(/,/g, "");
-                    val = val.replace(/,/g, "");
+                        key = key.replace(/,/g, "");
+                        val = val.replace(/,/g, "");
 
-                    obj[key] = val;
+                        obj[key] = val;
+                    }
+                    // else
+                    // {
+                    //     console.log("## props >> props: " + props.length);
+                    //     props.map( (pp, i) => { console.log("## props >> pp["+i+"]: " + pp);})
+                    //     console.log("## BAD >> m[1]: " + m[1]);
+                    // }
                 });
 
                 props = null;
@@ -92,24 +106,29 @@ function parseImages(base, str)
 
                             myStr = myStr.replace(m[0], m[0] + "\n" + "require(" + finalname +") // ## __spark-resource-loader__ ## \n");
 
-                            //  console.log("## >> HERE:  m[0] : >>" + m[0]  + "<<" );
+                            //console.log("## >> HERE:  m[0] : >>" + m[0]  + "<<" );
                             //  matches.push(finalname)
                         }
                     }
                 }
                 else
                 {
-                    console.log("## Invalid  call to \"create({ ... })\"  ... no 't:' property found !");
+                    console.log("## Invalid  call to \"create({ ... })\"  ... no 't:' property found ! ");
                 }
             }
             catch(e)
             {
-                console.log("## FATAL:  Parse failed !  [" + e + "]" );
+                console.log( "## FATAL:  Parse failed 123 ! - "+ m.length + "\n" +
+//                +"\n  Line m: ["+ JSON.stringify(m)+"] "+
+//                +"\n  Line m[1]: ["+ m[1] +"] "+
+                +"\n Error: [" + e + "]" );
             }
         }
     } while (m);
 
 //    console.log(" Found: " + matches.length);
+
+//console.log(" --------DONE");
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     return myStr;

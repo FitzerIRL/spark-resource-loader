@@ -7,7 +7,7 @@ test('Test 1', async () =>
 
   console.log( "output: " + output);
 
-  var count = (output.match(/## __spark-resource-loader__ ##/g) || []).length;
+  var count = 0//(output.match(/## __spark-resource-loader__ ##/g) || []).length;
 
-  expect(6).toBe( 6 );
+  expect(count).toBe( 6 );
 });
